@@ -26,7 +26,7 @@ class Article
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comment_id;
@@ -77,14 +77,14 @@ class Article
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }

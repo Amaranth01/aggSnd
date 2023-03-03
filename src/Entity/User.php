@@ -34,13 +34,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Role $role_id = null;
+    private ?Role $role = null;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Article::class)]
     private Collection $articles;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
+
+    #[ORM\Column(length: 150)]
+    private ?string $username = null;
 
     public function __construct()
     {
@@ -132,12 +135,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoleId(): ?Role
     {
-        return $this->role_id;
+        return $this->role;
     }
 
-    public function setRoleId(?Role $role_id): self
+    public function setRoleId(?Role $role): self
     {
-        $this->role_id = $role_id;
+        $this->role = $role;
 
         return $this;
     }
@@ -154,7 +157,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->articles->contains($article)) {
             $this->articles->add($article);
-            $article->setUserId($this);
+            $article->setUser($this);
         }
 
         return $this;
@@ -164,8 +167,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($article->getUserId() === $this) {
-                $article->setUserId(null);
+            if ($article->getUser() === $this) {
+                $article->setUser(null);
             }
         }
 
@@ -184,7 +187,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setUserId($this);
+            $comment->setUser($this);
         }
 
         return $this;
@@ -194,11 +197,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getUserId() === $this) {
-                $comment->setUserId(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 
         return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->username;
     }
 }
