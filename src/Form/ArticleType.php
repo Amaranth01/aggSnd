@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,9 +15,17 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('image')
             ->add('content')
+            ->add('image', FileType::class, [
+                'label' => 'Upload an image for your article'
+            ])
             ->add('user')
+            ->add('save', SubmitType::class, [
+                'label' => "Saving"
+            ])
+            ->add('Save_draft', SubmitType::class, [
+                'label' => 'Saving as draft'
+            ])
         ;
     }
 

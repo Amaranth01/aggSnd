@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -24,6 +25,9 @@ class Article
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
+
+    #[ORM\Column(type: 'Boolean')]
+    private ?bool $isPublished;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?User $user = null;
@@ -74,6 +78,23 @@ class Article
     {
         $this->content = $content;
 
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsPublished(): ?bool
+    {
+        return $this->isPublished;
+    }
+
+    /**
+     * @param bool|null $isPublished
+     */
+    public function setIsPublished(?bool $isPublished): self
+    {
+        $this->isPublished = $isPublished;
         return $this;
     }
 
