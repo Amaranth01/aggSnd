@@ -9,10 +9,13 @@
         {{ form_start(register_form) }}
         <div class="form-content">
             <div class="form_row">
-                {{ form_row(register_form.title) }}
+                {{ form_row(register_form.username) }}
             </div>
             <div class="form_row">
-                {{ form_row(register_form.content) }}
+                {{ form_row(register_form.email) }}
+            </div>
+            <div class="form_row">
+                {{ form_row(register_form.password) }}
             </div>
             <div class="form_row">
                 {{ form_row(register_form.image) }}

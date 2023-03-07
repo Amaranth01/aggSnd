@@ -10,8 +10,6 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegisterType extends AbstractType
 {
@@ -22,25 +20,15 @@ class RegisterType extends AbstractType
             ->add('email')
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_option' => [
+                'first_options' => [
                     'label' => 'Enter your password',
                 ],
                 'second_options' => [
-                  'label' => 'Repeate your password  ',
-                ],
-                'contraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password at least 8 characters and maximum 100'
-                    ]),
-                    new Length([
-                        'min' => 8,
-                        'minMessages' => 'Your password is too small, minimum length 8 characters',
-                        'max' => 100,
-                    ])
+                  'label' => 'Repeat your password  ',
                 ],
             ])
             ->add('image', FileType::class, [
-                'label' => 'Upload a profile picture'
+                'label' => 'Upload a profile picture',
             ])
             ->add('submit', SubmitType::class)
         ;
